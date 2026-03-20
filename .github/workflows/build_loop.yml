@@ -1,0 +1,22 @@
+name: Build Loop
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build
+        run: |
+          xcodebuild archive -workspace Loop.xcworkspace -scheme Loop -configuration Release -archivePath $RUNNER_TEMP/Loop.xcarchive
+          xcodebuild -exportArchive -archivePath $RUNNER_TEMP/Loop.xcarchive -exportOptionsPlist exportOptions.plist -exportPath $RUNNER_TEMP/build
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Loop
+          path: $RUNNER_TEMP/build/Loop.ipa
