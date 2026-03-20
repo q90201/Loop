@@ -1,4 +1,4 @@
-name: Build Loop
+name: Build Loop 3.2.1 (iOS15兼容版)
 on:
   workflow_dispatch:
 
@@ -8,6 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          repository: LoopKit/Loop
+          ref: '3.2.1'       # 强制拉取官方历史标签 3.2.1
           submodules: recursive
 
       - name: Build
@@ -18,5 +20,5 @@ jobs:
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: Loop
+          name: Loop-3.2.1-iOS15
           path: $RUNNER_TEMP/build/Loop.ipa
